@@ -1,0 +1,3 @@
+Update CWPACTIVITY Set status = 4 Where process_id in ( 
+ 7784730,7788339,7789022,7795470,7795822
+) And status =1

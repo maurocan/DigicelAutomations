@@ -1,0 +1,14 @@
+-- SO of RESUME_CONTRACT whit contract in 'a' & ActivityIndex 97 (to 100)
+
+Select p.process_id,''''||P.ORDER_ID||''',',p.order_id,c.activity_index,o.ordertype,o.creationdate,b.reasoncode,o.contractid
+From cwprocess p inner join
+cwpactivity c on c.process_id = p.process_id inner join
+cworderinstance o on o.cwdocid = p.order_id inner join
+order_detail b on b.order_instance_id = o.cwdocid
+Where p.status = '5'
+--And o.ordertype = 'DISCONNECT'
+--And o.ordertype = 'CANCEL'
+And o.ordertype = 'RESUME'
+and c.activity_index = (select max (activity_index) from cwpactivity where process_id = p.process_id)
+AND c.activity_index = '97'  --activateContract
+And o.contractid in (Select c.co_code from contract_all@EOC_TO_BSCS c where c.ch_status = 'a' )
